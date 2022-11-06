@@ -1,0 +1,39 @@
+---
+- name: Ensure app dir exists
+  file:
+    path: /var/www/cloudsheger.com
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Ensure web root exists
+  file:
+    path: /var/www/cloudsheger.com/public
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: Add PHP file
+  copy:
+    src: index.php
+    dest: /var/www/cloudsheger.com/public/index.php
+    owner: www-data
+    group: www-data
+
+- name: Remove default Nginx configurations
+  command: rm -rf nginx/conf.d/.default.conf && rm -rf nginx/conf.d/no-ssl.default.conf
+  args:
+    chdir: /etc
+  ignore_errors: true
+
+- name: Add Nginx configuration
+  copy:
+    src: cloudsheger.com.conf
+    dest: /etc/nginx/conf.d/cloudsheger.com.conf
+    owner: root
+    group: root
+
+- name: Reload Nginx
+  service:
+    name: nginx
+    state: reloaded
