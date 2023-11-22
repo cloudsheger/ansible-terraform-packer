@@ -9,33 +9,34 @@ library identifier: 'jenkins-devops-libs@master', retriever: modernSCM(
 
 pipeline {
   agent {
-        docker {
-            image 'hashicorp/packer:1.9'
-            // Additional Docker-related configurations can go here
-        }
+    docker {
+      image 'hashicorp/packer:1.9'
+      // Additional Docker-related configurations can go here
     }
+  }
+
   stages {
     stage('Init') {
       steps {
         sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/cloudsheger.json -o cloudsheger.json'
-       // sh 'curl -L https://raw.githubusercontent.com/mschuchard/jenkins-devops-libs/master/tests/packer/docker.pkr.hcl -o docker.pkr.hcl'
-
         script {
           packer.init(dir: '.')
         }
       }
     }
+
     stage('Plugins') {
       steps {
         script {
           packer.plugins(command: 'installed')
           packer.plugins(
             command: 'required',
-            dir:     '.'
+            dir: '.'
           )
         }
       }
     }
+
     stage('Validate') {
       steps {
         script {
@@ -43,17 +44,19 @@ pipeline {
         }
       }
     }
+
     stage('Format') {
       steps {
         script {
           packer.fmt(
-            check:    true,
-            diff:     true,
+            check: true,
+            diff: true,
             template: '.'
           )
         }
       }
     }
+
     stage('Inspect') {
       steps {
         script {
@@ -61,6 +64,7 @@ pipeline {
         }
       }
     }
+
     stage('Build') {
       steps {
         script {
