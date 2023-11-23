@@ -4,7 +4,6 @@ FROM hashicorp/packer:1.9
 # Install curl and git
 USER root
 RUN apk --no-cache add curl git
-USER jenkins
 
 # Create a non-root user with a home directory
 RUN addgroup -S jenkins && adduser -S -G jenkins jenkins
