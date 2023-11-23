@@ -19,7 +19,7 @@ pipeline {
   stages {
     stage('Init') {
       steps {
-        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/cloudsheger.pkr.json -o cloudsheger.pkr.json'
+        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/ubuntu.pkr.hcl -o ubuntu.pkr.hcl'
         script {
           packer.init(dir: '.')
         }
