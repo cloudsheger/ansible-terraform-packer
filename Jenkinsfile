@@ -9,16 +9,16 @@ library identifier: 'jenkins-devops-libs@master', retriever: modernSCM(
 
 pipeline {
   agent {
-    docker {
-      image 'hashicorp/packer:1.9'
-      // Additional Docker-related configurations can go here
-    }
+     dockerfile true,
+    '-v /var/run/docker.sock:/var/run/docker.sock'
   }
 
   stages {
     stage('Init') {
       steps {
         sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/cloudsheger.json -o cloudsheger.json'
+        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/variables.json -o variables.json'
+
         script {
           packer.init(dir: '.')
         }
