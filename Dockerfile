@@ -10,5 +10,6 @@ WORKDIR /home/jenkins
 # Switch to the non-root user
 USER jenkins
 
-# Entry point to run bash when the container starts
-CMD ["/bin/bash"]
+# No need to specify CMD, as it will be overridden by Jenkins
+
+# No ENTRYPOINT to allow Jenkins to override it
