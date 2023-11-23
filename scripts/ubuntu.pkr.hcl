@@ -1,7 +1,8 @@
-source "docker" "example" {
-  image = "centos:7"
+# Example Packer configuration
+source "docker" "ubuntu" {
+  image = "ubuntu:latest"
 }
 
 build {
-  sources = ["source.docker.example"]
+  sources = ["source.docker.ubuntu"]
 }
