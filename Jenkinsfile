@@ -19,9 +19,7 @@ pipeline {
   stages {
     stage('Init') {
       steps {
-        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/cloudsheger.json -o cloudsheger.json'
-        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/variables.json -o variables.json'
-
+        sh 'curl -L https://raw.githubusercontent.com/cloudsheger/ansible-terraform-packer/main/scripts/cloudsheger.pkr.json -o cloudsheger.pkr.json'
         script {
           packer.init(dir: '.')
         }
@@ -43,7 +41,7 @@ pipeline {
     stage('Validate') {
       steps {
         script {
-          packer.validate(template: 'cloudsheger.json')
+          packer.validate(template: 'cloudsheger.pkr.json')
         }
       }
     }
@@ -63,7 +61,7 @@ pipeline {
     stage('Inspect') {
       steps {
         script {
-          packer.inspect('cloudsheger.json')
+          packer.inspect('cloudshege.pkr.json')
         }
       }
     }
@@ -71,7 +69,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          packer.build(template: 'cloudsheger.json')
+          packer.build(template: 'cloudsheger.pkr.json')
         }
       }
     }
